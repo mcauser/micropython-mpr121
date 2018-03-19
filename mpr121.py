@@ -149,9 +149,19 @@ class MPR121:
             raise ValueError('Release must be in range 0-255.')
         f = 0 if electrode is None else electrode
         t = 12 if electrode is None else electrode + 1
+
+        # you can only modify the thresholds when in stop mode
+        config = self._register8(MPR121_ELECTRODE_CONFIG)
+        if config != 0:
+            self._register8(MPR121_ELECTRODE_CONFIG, 0)
+
         for i in range(f, t):
             self._register8(MPR121_TOUCH_THRESHOLD + i * 2, touch)
             self._register8(MPR121_RELEASE_THRESHOLD + i * 2, release)
+
+        # return to previous mode if temporarily entered stop mode
+        if config != 0:
+            self._register8(MPR121_ELECTRODE_CONFIG, config)
 
     def filtered_data(self, electrode):
         """Returns filtered data value for the specified electrode (0-11)"""
