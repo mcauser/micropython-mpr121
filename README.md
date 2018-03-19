@@ -34,7 +34,7 @@ mpr = mpr121.MPR121(i2c, 0x5A)
 print(mpr.touched())
 ```
 
-For more detailed examples, see ![/examples](/examples)
+For more detailed examples, see [/examples](/examples)
 
 ## Parts
 
