@@ -1,3 +1,6 @@
+"""
+Prints the filtered data and baseline values for a single key
+"""
 
 import mpr121
 from machine import Pin
