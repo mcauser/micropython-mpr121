@@ -23,7 +23,7 @@ $ ampy put mpr121.py
 
 **Basic usage**
 
-```
+```python
 import mpr121
 
 from machine import Pin
@@ -58,3 +58,7 @@ GND           | GND
 * [MPR121 datasheet](http://micropython.org/resources/datasheets/MPR121.pdf)
 * [MPR121 product page](https://www.nxp.com/products/no-longer-manufactured/proximity-capacitive-touch-sensor-controller:MPR121)
 * [Adafruit Ampy](https://learn.adafruit.com/micropython-basics-load-files-and-run-code/install-ampy)
+
+## License
+
+Licensed under the [MIT License](http://opensource.org/licenses/MIT).
