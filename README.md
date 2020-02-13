@@ -24,11 +24,11 @@ $ ampy put mpr121.py
 **Basic usage**
 
 ```python
+import machine
 import mpr121
+import time
 
-from machine import Pin
-i2c = machine.I2C(3)
-
+i2c = machine.I2C(-1, machine.Pin(14), machine.Pin(12))
 mpr = mpr121.MPR121(i2c, 0x5A)
 
 print(mpr.touched())
