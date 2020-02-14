@@ -4,9 +4,12 @@ It works, but is very noisy. Registers need tweaking.
 """
 
 import mpr121
-from machine import Pin
+from machine import Pin, I2C
 
-i2c = machine.I2C(3)
+i2c = I2C(3) # stm32
+#i2c = I2C(scl=Pin(5), sda=Pin(4)) # esp8266
+#i2c = I2C(scl=Pin(22), sda=Pin(21)) # esp32
+
 mpr = mpr121.MPR121(i2c)
 
 # the 13th electrode is the proximity channel

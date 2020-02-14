@@ -17,40 +17,91 @@ These boards use 3.3V logic, so you would want to use a logic level converter wi
 
 Copy the file to your device, using ampy, webrepl or compiling and deploying. eg.
 
-```
+```bash
 $ ampy put mpr121.py
 ```
 
 **Basic usage**
 
 ```python
-import machine
+from machine import Pin, I2C
 import mpr121
 import time
 
-i2c = machine.I2C(-1, machine.Pin(14), machine.Pin(12))
+i2c = I2C(scl=Pin(5), sda=Pin(4))
 mpr = mpr121.MPR121(i2c, 0x5A)
 
-print(mpr.touched())
+while True:
+	print(mpr.touched())
+	time.sleep_ms(100)
 ```
 
 For more detailed examples, see [/examples](/examples)
 
 ## Parts
 
-* [VCC-GND STM32F407VET6 mini](https://www.aliexpress.com/item/STM32F407VET6-Mini-version-of-the-core-board-STM32-minimum-system-version/32709285751.html) $15.47 AUD
 * [MPR121 Capacitive Touch Keypad](https://www.aliexpress.com/item/MPR121-capacitive-touch-sensor-module-sensor-keys-keyboard-keys-for-arduino/32810655083.html) $2.88 AUD
 * [Female-Female Dupont wires](https://www.aliexpress.com/item/10pcs-10cm-2-54mm-1p-1p-Pin-Male-to-Male-Color-Breadboard-Cable-Jump-Wire-Jumper/32636873838.html) $0.64 AUD
+* [VCC-GND STM32F407VET6 mini](https://www.aliexpress.com/item/STM32F407VET6-Mini-version-of-the-core-board-STM32-minimum-system-version/32709285751.html) $15.47 AUD
+* [TinyPICO](https://www.tinypico.com/) $20.00 USD
+* [Wemos D1 Mini](https://www.aliexpress.com/item/32529101036.html) $5.20 AUD
 
 ## Connections
 
-STM32F407VET6 | MPR121 Capacitive Touch Keypad
-------------- | -----------------
-3V3 (or 5V)   | VCC
-D3 (any pin)  | IRQ
-A8 (SPI3 SCL) | SCL
-C9 (SPI3 SDA) | SDA
-GND           | GND
+### VCC GND STM32F407VET6 Mini
+
+```python
+from machine import I2C
+import mpr121
+i2c = I2C(3)
+mpr = mpr121.MPR121(i2c, 0x5A)
+```
+
+MPR121 | STM32F407VET6
+------ | -------------
+VCC    | 3V3 (or 5V)
+IRQ    | D3 (optional)
+SCL    | A8 (SCL)
+SDA    | C9 (SDA)
+GND    | GND
+
+* I2C(1) SCL=B6, SDA=B7
+* I2C(2) SCL=B10, SDA=B11
+* I2C(3) SCL=A8, SDA=C9
+
+### TinyPICO (ESP32)
+
+```python
+from machine import Pin, I2C
+import mpr121
+i2c = I2C(scl=Pin(22), sda=Pin(21))
+mpr = mpr121.MPR121(i2c, 0x5A)
+```
+
+MPR121 | TinyPICO ESP32
+------ | -------------
+VCC    | 3V3
+IRQ    | GPIO32 (optional)
+SCL    | GPIO22 (SCL)
+SDA    | GPIO21 (SDA)
+GND    | GND
+
+### Wemos D1 Mini (ESP8266)
+
+```python
+from machine import Pin, I2C
+import mpr121
+i2c = I2C(scl=Pin(5), sda=Pin(4))
+mpr = mpr121.MPR121(i2c, 0x5A)
+```
+
+MPR121 | D1 Mini ESP8266
+------ | -------------
+VCC    | 3V3
+IRQ    | D3 (optional)
+SCL    | D1 GPIO5 (SCL)
+SDA    | D3 GPIO4 (SDA)
+GND    | GND
 
 ## Links
 
@@ -62,3 +113,5 @@ GND           | GND
 ## License
 
 Licensed under the [MIT License](http://opensource.org/licenses/MIT).
+
+Copyright (c) 2018 Mike Causer

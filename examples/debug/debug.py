@@ -4,9 +4,12 @@ Compare the filtered data, baseline data and touch detection, with ansi colours
 
 import mpr121
 import time
-from machine import Pin
+from machine import Pin, I2C
 
-i2c = machine.I2C(3)
+i2c = I2C(3) # stm32
+#i2c = I2C(scl=Pin(5), sda=Pin(4)) # esp8266
+#i2c = I2C(scl=Pin(22), sda=Pin(21)) # esp32
+
 mpr = mpr121.MPR121(i2c)
 
 #mpr.set_thresholds(15,7)
@@ -39,7 +42,7 @@ def print_table():
             filtered[i] = reset
         filtered[i] += str(d) + reset
         last_filtered[i] = d
-        
+
         d = mpr.baseline_data(i)
         if d > last_baseline[i]:
             baseline[i] = red
@@ -49,7 +52,7 @@ def print_table():
             baseline[i] = reset
         baseline[i] += str(d) + reset
         last_baseline[i] = d
-        
+
         d = mpr.is_touched(i)
         if d:
             touched[i] = green
